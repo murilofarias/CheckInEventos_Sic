@@ -1,6 +1,7 @@
-package br.com.murilofarias.checkineventos.data.source.local
+package br.com.murilofarias.checkineventos.date.source.local
 
 import br.com.murilofarias.checkineventos.data.model.User
+import br.com.murilofarias.checkineventos.data.source.local.LocalSource
 
 class FakeLocalSource: LocalSource {
 
@@ -21,5 +22,10 @@ class FakeLocalSource: LocalSource {
 
     override fun saveCheckIn(eventId: String) {
         checkIns = "$checkIns;${eventId}"
+    }
+
+    override fun reset() {
+        userSaved =User("", "")
+        checkIns = ""
     }
 }
