@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/eventListFragment"
         android:name="br.com.murilofarias.checkineventos.ui.eventlist.EventListFragment"
-        android:label="fragment_event_list"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_event_list" >
         <action
             android:id="@+id/action_showDetail"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/eventDetailFragment"
         android:name="br.com.murilofarias.checkineventos.ui.eventdetail.EventDetailFragment"
-        android:label="fragment_event_detail"
+        android:label="@string/event_details_title"
         tools:layout="@layout/fragment_event_detail">
         <argument
             android:name="selectedEvent"
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/checkInInputFragment"
         android:name="br.com.murilofarias.checkineventos.ui.checkininput.CheckInInputFragment"
-        android:label="fragment_check_in_input"
+        android:label="@string/info_checkin"
         tools:layout="@layout/fragment_check_in_input" >
         <action
             android:id="@+id/action_checkInInputFragment_to_eventListFragment"

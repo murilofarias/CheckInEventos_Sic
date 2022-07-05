@@ -9,4 +9,4 @@ fun convertLongToDateString(systemTime: Long): String {
         .format(systemTime).toString()
 }
 
-fun isUserInfoValid(userName: String, userEmail: String) = userName.isNotEmpty() && userEmail.isNotEmpty()
+fun isUserInfoValid(userName: String, userEmail: String) = userName.isNotBlank() && userEmail.isNotBlank()

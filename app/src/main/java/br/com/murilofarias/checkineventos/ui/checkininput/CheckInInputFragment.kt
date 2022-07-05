@@ -9,6 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.com.murilofarias.checkineventos.R
+import br.com.murilofarias.checkineventos.data.model.User
+import br.com.murilofarias.checkineventos.data.source.local.LocalSource
+import br.com.murilofarias.checkineventos.data.source.local.SharedPreferenceStorage
 import br.com.murilofarias.checkineventos.util.isUserInfoValid
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -19,9 +22,8 @@ class CheckInInputFragment : Fragment() {
     private lateinit var userNameEd: TextInputEditText
     private lateinit var userEmailEd: TextInputEditText
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var localSource : LocalSource
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,7 @@ class CheckInInputFragment : Fragment() {
             onSaveUserInfo()
         }
 
+        localSource = SharedPreferenceStorage(requireActivity().application)
 
         return layout
     }
@@ -49,14 +52,10 @@ class CheckInInputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences(
-            "MAIN_SHARED",
-            Context.MODE_PRIVATE
-        )
-
+        val user = localSource.getUser()
         //restores saved user values
-        userNameEd.setText( sharedPreferences.getString("USER_NAME", ""))
-        userEmailEd.setText(sharedPreferences.getString("USER_EMAIL", ""))
+        userNameEd.setText( user.name)
+        userEmailEd.setText(user.email)
 
 
     }
@@ -66,18 +65,10 @@ class CheckInInputFragment : Fragment() {
         val userEmail = userEmailEd.text.toString()
 
         if (isUserInfoValid(userName, userEmail)) {
-            val sharedPreferences = requireContext().getSharedPreferences(
-                "MAIN_SHARED",
-                Context.MODE_PRIVATE
-            )
 
-            val editor = sharedPreferences.edit()
-
-            editor.putString("USER_NAME", userName)
-            editor.putString("USER_EMAIL", userEmail)
-            editor.apply()
-
+            localSource.saveUser(User(userName, userEmail))
             findNavController().navigate(CheckInInputFragmentDirections.actionCheckInInputFragmentToEventListFragment())
+
         }
         else {
             Toast.makeText(activity, "Há Campos Obrigatórios Pendentes!", Toast.LENGTH_LONG)

@@ -61,11 +61,11 @@
 
 
                 <TextView
-                    android:id="@+id/price_tag_text"
+                    android:id="@+id/price_label_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Preço: "
+                    android:text="@string/price_label"
                     android:textStyle="bold"
                     android:textColor="#de000000"
                     android:textSize="20sp"
@@ -80,21 +80,21 @@
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     app:formattedPriceText="@{viewModel.selectedEvent.price}"
-                    app:layout_constraintStart_toEndOf="@+id/description_tag_text"
+                    app:layout_constraintStart_toEndOf="@+id/description_label_text"
                     app:layout_constraintTop_toBottomOf="@id/main_photo_image"
                     tools:text="$29,99" />
 
                 <TextView
-                    android:id="@+id/description_tag_text"
+                    android:id="@+id/description_label_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Descrição :"
+                    android:text="@string/description_label"
                     android:textStyle="bold"
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/price_tag_text"/>
+                    app:layout_constraintTop_toBottomOf="@id/price_label_text"/>
 
                 <TextView
                     android:id="@+id/description_value_text"
@@ -105,11 +105,11 @@
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/description_tag_text"
+                    app:layout_constraintTop_toBottomOf="@id/description_label_text"
                     tools:text="O Patas Dadas estará na Redenção, nesse domingo, com cães para adoção e produtos à venda!\n\nNa ocasião, teremos bottons, bloquinhos e camisetas!\n\nTraga seu Pet, os amigos e o chima, e venha aproveitar esse dia de sol com a gente e com alguns de nossos peludinhos - que estarão prontinhos para ganhar o ♥ de um humano bem legal pra chamar de seu. \n\nAceitaremos todos os tipos de doação:\n- guias e coleiras em bom estado\n- ração (as que mais precisamos no momento são sênior e filhote)\n- roupinhas \n- cobertas \n- remédios dentro do prazo de validade"/>
 
                 <TextView
-                    android:id="@+id/location_tag_text"
+                    android:id="@+id/location_label_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -129,7 +129,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/location_tag_text"/>
+                    app:layout_constraintTop_toBottomOf="@id/location_label_text"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

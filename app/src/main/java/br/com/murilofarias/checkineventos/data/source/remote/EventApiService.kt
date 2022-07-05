@@ -1,4 +1,4 @@
-package br.com.murilofarias.checkineventos.data.network
+package br.com.murilofarias.checkineventos.data.source.remote
 
 import br.com.murilofarias.checkineventos.data.model.CheckInInfo
 import br.com.murilofarias.checkineventos.data.model.Event
@@ -9,6 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 private const val BASE_URL = "https://5f5a8f24d44d640016169133.mockapi.io/api/"
 
@@ -21,13 +22,17 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-interface EventApiService {
+interface EventApiService: RemoteSource {
 
     @GET("events")
-    suspend fun getEvents(): List<Event>
+    override suspend fun getEvents(): List<Event>
 
     @POST("checkin")
-    suspend fun doCheckIn(@Body checkInInfo: CheckInInfo)
+    override suspend fun doCheckIn(@Body checkInInfo: CheckInInfo)
+
+    @GET("events/{eventId}")
+    override suspend fun getEvent(@Path("eventId") eventId: String): Event
+
 }
 
 /**

@@ -1,7 +1,6 @@
 package br.com.murilofarias.checkineventos.ui.eventdetail
 
-import android.app.ActionBar
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -12,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.murilofarias.checkineventos.R
 import br.com.murilofarias.checkineventos.data.model.Event
+import br.com.murilofarias.checkineventos.data.source.local.SharedPreferenceStorage
+import br.com.murilofarias.checkineventos.data.source.remote.EventApi
 import br.com.murilofarias.checkineventos.databinding.FragmentEventDetailBinding
 import br.com.murilofarias.checkineventos.util.convertLongToDateString
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,19 +33,19 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
     private lateinit var checkButton : MaterialButton
     private lateinit var progressBar : ProgressBar
 
-    private var isCheckIn = true
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        val application = requireNotNull(activity).application
         val binding = FragmentEventDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+
         event = EventDetailFragmentArgs.fromBundle(requireArguments()).selectedEvent
-        val viewModelFactory = EventDetailViewModelFactory(event, application)
+        val viewModelFactory = EventDetailViewModelFactory(event, EventApi.retrofitService,SharedPreferenceStorage(requireActivity().application))
         viewModel = ViewModelProvider(
             this, viewModelFactory).get(EventDetailViewModel::class.java)
 
@@ -56,21 +57,34 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         binding.checkinButton.setOnClickListener {
-            if(isCheckIn)
                 onCheckIn()
-            else
-                onCheckOut()
         }
+
 
         checkButton = binding.checkinButton
         progressBar = binding.spinnerCheckinLoading
+
+
+
+        setHasOptionsMenu(true)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        checkButton.text = if(viewModel.isCheckIn.value!!) "Check-in Realizado" else "Fazer Check-in"
 
         viewModel.checkInSuccess.observe(viewLifecycleOwner, Observer {
             onCheckInResponseReceived(it)
         })
 
-        setHasOptionsMenu(true)
-        return binding.root
+        viewModel.isCheckIn.observe(viewLifecycleOwner, Observer {
+            it.let{
+                checkButton.text = if(it) "Check-in Realizado" else "Fazer Check-in"
+            }
+        })
+
     }
 
     fun onCheckInResponseReceived(checkInSuccess : Boolean){
@@ -79,20 +93,6 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
                 Snackbar.make(checkButton, "Check-In realizado com Sucesso", Snackbar.LENGTH_LONG)
                     .show()
 
-                val sharedPreferences = requireContext().getSharedPreferences(
-                    "MAIN_SHARED",
-                    Context.MODE_PRIVATE
-                )
-
-                var userChecks = sharedPreferences.getString("USER_CHECKS", "") ?: ""
-                userChecks = "$userChecks;${event.id}"
-
-                val editor = sharedPreferences.edit()
-                editor.putString("USER_CHECKS", userChecks)
-                editor.apply()
-
-                checkButton.text = "Fazer Check-out"
-                isCheckIn = false
             } else {
                 Snackbar.make(checkButton, "Falha no Check-In", Snackbar.LENGTH_LONG)
                     .setAction("Tentar Novamente") {
@@ -107,56 +107,24 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val sharedPreferences = requireContext().getSharedPreferences(
-            "MAIN_SHARED",
-            Context.MODE_PRIVATE
-        )
-
-        var userChecks = sharedPreferences.getString("USER_CHECKS", "") ?: ""
-
-        isCheckIn = !userChecks.split(";").contains(event.id)
-        checkButton.text = if(isCheckIn) "Fazer Check-in" else "Fazer Check-out"
-
-    }
-
-    fun onCheckOut(){
-        val sharedPreferences = requireContext().getSharedPreferences(
-            "MAIN_SHARED",
-            Context.MODE_PRIVATE
-        )
-
-        val userChecks = sharedPreferences.getString("USER_CHECKS", "") ?: ""
-        val userChecksMutable = userChecks.split(";").toMutableList()
-        if(userChecksMutable.remove(event.id)) {
-            checkButton.text = "Fazer Check-in"
-            isCheckIn = true
-            val editor = sharedPreferences.edit()
-            editor.putString("USER_CHECKS", userChecksMutable.joinToString(";"))
-            editor.apply()
-        }
-        else {
-            Snackbar.make(checkButton, "Falha no Check-out", Snackbar.LENGTH_LONG)
-                .show()
-        }
-
-    }
 
     fun onCheckIn(){
+
+        if(viewModel.isCheckIn.value!!)
+        {
+            Snackbar.make(checkButton, "Check-in já foi realizado!", Snackbar.LENGTH_LONG)
+                .show()
+        }
+        else
+            doCheckInRequest()
+
+    }
+
+    fun doCheckInRequest(){
         progressBar.visibility = View.VISIBLE
         checkButton.visibility = View.GONE
 
-        val sharedPreferences = requireContext().getSharedPreferences(
-            "MAIN_SHARED",
-            Context.MODE_PRIVATE
-        )
-
-        val userName = sharedPreferences.getString("USER_NAME", "") ?: ""
-        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: ""
-        viewModel.onCheckIn(userName, userEmail, event.id)
-
+        viewModel.onCheckIn(event.id)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -19,3 +19,8 @@ data class CheckInInfo(
     val userName: String,
     val userEmail: String
 )
+
+data class User(
+    val name: String,
+    val email: String
+)

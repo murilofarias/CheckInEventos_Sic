@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">CheckInEventos</string>
+    <string name="app_name">Check-in Eventos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="info_checkin">Info Check-in</string>
+    <string name="event_details_title">Detalhes do Evento</string>
+    <string name="price_label">Preço:</string>
+    <string name="description_label">Descrição:</string>
 </resources>
