@@ -11,4 +11,5 @@ class EventApplication: Application() {
 
     val remoteSource: RemoteSource
         get() = ServiceLocator.provideRemoteSource(this)
+
 }

@@ -2,10 +2,13 @@ package br.com.murilofarias.checkineventos.ui.eventdetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import br.com.murilofarias.checkineventos.ServiceLocator.remoteSource
 import br.com.murilofarias.checkineventos.data.model.Event
 import br.com.murilofarias.checkineventos.data.model.User
 import br.com.murilofarias.checkineventos.data.source.local.FakeLocalSource
 import br.com.murilofarias.checkineventos.data.source.local.LocalSource
+import br.com.murilofarias.checkineventos.data.source.remote.FakeRemoteSource
+import br.com.murilofarias.checkineventos.data.source.remote.RemoteSource
 import br.com.murilofarias.checkineventos.getOrAwaitValue
 import org.junit.Before
 import org.junit.Rule
@@ -14,7 +17,6 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 
 @RunWith(AndroidJUnit4::class)
-
 class EventDetailViewModelTest{
 
 
@@ -24,11 +26,11 @@ class EventDetailViewModelTest{
     var instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var localSource: LocalSource
-
+    private lateinit var remoteSource: RemoteSource
 
     @Before
     fun setupViewModel() {
-
+        remoteSource = FakeRemoteSource()
         localSource = FakeLocalSource()
         val user = User("murilo", "murilo.farias@gmail.com")
         localSource.saveUser(user)
@@ -45,7 +47,7 @@ class EventDetailViewModelTest{
             )
 
 
-        eventDetailViewModel = EventDetailViewModel(event, localSource)
+        eventDetailViewModel = EventDetailViewModel(event, remoteSource, localSource)
 
     }
 

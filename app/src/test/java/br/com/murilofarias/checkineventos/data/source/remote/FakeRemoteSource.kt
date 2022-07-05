@@ -1,4 +1,4 @@
-package br.com.murilofarias.checkineventos.date.source.local
+package br.com.murilofarias.checkineventos.data.source.remote
 
 import br.com.murilofarias.checkineventos.data.model.CheckInInfo
 import br.com.murilofarias.checkineventos.data.model.Event

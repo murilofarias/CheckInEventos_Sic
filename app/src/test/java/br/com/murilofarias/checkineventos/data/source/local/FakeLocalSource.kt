@@ -22,4 +22,9 @@ class FakeLocalSource: LocalSource {
     override fun saveCheckIn(eventId: String) {
         checkIns = "$checkIns;${eventId}"
     }
+
+    override fun reset() {
+        userSaved = User("", "")
+        checkIns = ""
+    }
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import br.com.murilofarias.checkineventos.EventApplication
 import br.com.murilofarias.checkineventos.R
 import br.com.murilofarias.checkineventos.data.source.local.SharedPreferenceStorage
 import br.com.murilofarias.checkineventos.data.source.remote.EventApi
@@ -29,7 +30,9 @@ class EventListFragment : Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        val viewModelFactory = EventListViewModelFactory(EventApi.retrofitService, SharedPreferenceStorage(requireActivity().application))
+        val viewModelFactory = EventListViewModelFactory(
+            (requireContext().applicationContext as EventApplication).remoteSource,
+            (requireContext().applicationContext as EventApplication).localSource)
         viewModel = ViewModelProvider(
             this, viewModelFactory).get(EventListViewModel::class.java)
 

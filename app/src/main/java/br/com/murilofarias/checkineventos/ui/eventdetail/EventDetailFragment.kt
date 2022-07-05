@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import br.com.murilofarias.checkineventos.EventApplication
 import br.com.murilofarias.checkineventos.R
 import br.com.murilofarias.checkineventos.data.model.Event
 import br.com.murilofarias.checkineventos.data.source.local.SharedPreferenceStorage
@@ -45,7 +46,10 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
 
 
         event = EventDetailFragmentArgs.fromBundle(requireArguments()).selectedEvent
-        val viewModelFactory = EventDetailViewModelFactory(event, EventApi.retrofitService,SharedPreferenceStorage(requireActivity().application))
+        val viewModelFactory = EventDetailViewModelFactory(
+            event,
+            (requireContext().applicationContext as EventApplication).remoteSource,
+            (requireContext().applicationContext as EventApplication).localSource)
         viewModel = ViewModelProvider(
             this, viewModelFactory).get(EventDetailViewModel::class.java)
 
