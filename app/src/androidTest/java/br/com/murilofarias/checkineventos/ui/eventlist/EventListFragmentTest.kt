@@ -1,33 +1,50 @@
 package br.com.murilofarias.checkineventos.ui.eventlist
 
+import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.view.menu.ActionMenuItem
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.core.internal.deps.guava.base.Joiner.on
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import br.com.murilofarias.checkineventos.R
 import br.com.murilofarias.checkineventos.ServiceLocator
 import br.com.murilofarias.checkineventos.data.model.Event
+import br.com.murilofarias.checkineventos.data.model.User
 import br.com.murilofarias.checkineventos.data.source.local.LocalSource
 import br.com.murilofarias.checkineventos.data.source.remote.RemoteSource
 import br.com.murilofarias.checkineventos.date.source.local.FakeLocalSource
 import br.com.murilofarias.checkineventos.date.source.remote.FakeRemoteSource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.*
 
-
+@RunWith(AndroidJUnit4::class)
+@MediumTest
+@ExperimentalCoroutinesApi
 class EventListFragmentTest {
 
     private lateinit var localSource: LocalSource
     private lateinit var remoteSource: RemoteSource
 
-    private val events: List<Event> = listOf(
+    private val events_sample: List<Event> = listOf(
         Event(
             "1",
             1534784400000,
@@ -63,7 +80,8 @@ class EventListFragmentTest {
     @Before
     fun initLocalSource() {
         localSource = FakeLocalSource()
-        remoteSource = FakeRemoteSource(events)
+        remoteSource = FakeRemoteSource()
+
         ServiceLocator.localSource = localSource
         ServiceLocator.remoteSource = remoteSource
     }
@@ -77,19 +95,15 @@ class EventListFragmentTest {
 
 
     @Test
-    fun clickEventListItem_navigateToEventDetailOfFirstElementInList() = runBlockingTest {
+    fun clickEventListItem_RemoteSourceWorking_navigateToEventDetailOfFirstElementInList() = runBlockingTest {
 
         // GIVEN - On the list fragment without
+        remoteSource.uploadEvents(events_sample)
         val navController = Mockito.mock(NavController::class.java)
-        //val scenario = launchFragmentInContainer<EventListFragment>(Bundle(), R.style.Theme_CheckInEventos)
         val scenario = launchFragmentInContainer<EventListFragment>(Bundle(), R.style.Theme_CheckInEventos) {
             EventListFragment().also { fragment ->
-                // In addition to returning a new instance of our Fragment,
-                // get a callback whenever the fragment’s view is created
-                // or destroyed so that we can set the mock NavController
                 fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
                     if (viewLifecycleOwner != null) {
-                        // The fragment’s view has just been created
                         Navigation.setViewNavController(fragment.requireView(), navController)
                     }
                 }
@@ -100,7 +114,7 @@ class EventListFragmentTest {
         val pos = 0
         val firstEvent = remoteSource.getEvents().get(0)
 
-        //Then
+        //WHEN
         onView(withId(R.id.event_list)).perform(actionOnItemAtPosition<EventAdapter.EventViewHolder>(pos, click()))
 
         // THEN
@@ -110,31 +124,29 @@ class EventListFragmentTest {
     }
 
     @Test
-    fun clickEventListItem_navigateToUserInfoIfEmpty() = runBlockingTest {
+    fun startEventListItem_RemoteSourceWorking_navigateToUserInfoIfEmpty() = runBlockingTest {
 
         // GIVEN - On the list fragment without
-        val navController = Mockito.mock(NavController::class.java)
-        //val scenario = launchFragmentInContainer<EventListFragment>(Bundle(), R.style.Theme_CheckInEventos)
+        remoteSource.uploadEvents(events_sample)
+        val navController = mock(NavController::class.java)
         val scenario = launchFragmentInContainer<EventListFragment>(Bundle(), R.style.Theme_CheckInEventos) {
             EventListFragment().also { fragment ->
-                // In addition to returning a new instance of our Fragment,
-                // get a callback whenever the fragment’s view is created
-                // or destroyed so that we can set the mock NavController
                 fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
                     if (viewLifecycleOwner != null) {
-                        // The fragment’s view has just been created
                         Navigation.setViewNavController(fragment.requireView(), navController)
                     }
                 }
             }
         }
 
-
         // THEN
-        Mockito.verify(navController).navigate(
+
+        verify(navController).navigate(
             EventListFragmentDirections.actionEventListFragmentToCheckInInputFragment()
         )
     }
+
+
 
 
 }

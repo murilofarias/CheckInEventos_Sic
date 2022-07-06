@@ -33,6 +33,9 @@ interface EventApiService: RemoteSource {
     @GET("events/{eventId}")
     override suspend fun getEvent(@Path("eventId") eventId: String): Event
 
+    override suspend fun uploadEvents(events : List<Event>)
+
+
 }
 
 /**

@@ -12,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 import br.com.murilofarias.checkineventos.EventApplication
 import br.com.murilofarias.checkineventos.R
 import br.com.murilofarias.checkineventos.data.model.Event
-import br.com.murilofarias.checkineventos.data.source.local.SharedPreferenceStorage
-import br.com.murilofarias.checkineventos.data.source.remote.EventApi
 import br.com.murilofarias.checkineventos.databinding.FragmentEventDetailBinding
 import br.com.murilofarias.checkineventos.util.convertLongToDateString
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -77,13 +75,13 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkButton.text = if(viewModel.isCheckIn.value!!) "Check-in Realizado" else "Fazer Check-in"
+        checkButton.text = if(viewModel.isCheckedIn.value!!) "Check-in Realizado" else "Fazer Check-in"
 
         viewModel.checkInSuccess.observe(viewLifecycleOwner, Observer {
             onCheckInResponseReceived(it)
         })
 
-        viewModel.isCheckIn.observe(viewLifecycleOwner, Observer {
+        viewModel.isCheckedIn.observe(viewLifecycleOwner, Observer {
             it.let{
                 checkButton.text = if(it) "Check-in Realizado" else "Fazer Check-in"
             }
@@ -114,7 +112,7 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
 
     fun onCheckIn(){
 
-        if(viewModel.isCheckIn.value!!)
+        if(viewModel.isCheckedIn.value!!)
         {
             Snackbar.make(checkButton, "Check-in já foi realizado!", Snackbar.LENGTH_LONG)
                 .show()

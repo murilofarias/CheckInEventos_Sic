@@ -45,7 +45,6 @@ class EventListFragment : Fragment() {
 
 
 
-        viewModel.checkUserInfoSetup()
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -70,6 +69,8 @@ class EventListFragment : Fragment() {
                 viewModel.displayUserInfoComplete()
             }
         })
+
+        viewModel.checkUserInfoSetup()
     }
 
 

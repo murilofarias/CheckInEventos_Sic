@@ -10,4 +10,6 @@ interface RemoteSource {
     suspend fun doCheckIn(checkInInfo: CheckInInfo)
 
     suspend fun getEvent(id: String): Event
+
+    suspend fun uploadEvents(events : List<Event>)
 }

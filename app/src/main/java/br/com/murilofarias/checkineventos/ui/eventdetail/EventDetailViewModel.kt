@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import br.com.murilofarias.checkineventos.data.model.CheckInInfo
 import br.com.murilofarias.checkineventos.data.model.Event
 import br.com.murilofarias.checkineventos.data.source.local.LocalSource
-import br.com.murilofarias.checkineventos.data.source.remote.EventApi
 import br.com.murilofarias.checkineventos.data.source.remote.RemoteSource
 import kotlinx.coroutines.launch
 
@@ -28,11 +27,11 @@ class EventDetailViewModel (event: Event,
         get() = _checkInSuccess
 
     // The internal MutableLiveData for the selected property
-    private val _isCheckIn = MutableLiveData<Boolean>()
+    private val _isCheckedIn = MutableLiveData<Boolean>()
 
     // The external LiveData for the SelectedProperty
-    val isCheckIn: LiveData<Boolean>
-        get() = _isCheckIn
+    val isCheckedIn: LiveData<Boolean>
+        get() = _isCheckedIn
 
 
     // Initialize the _selectedProperty MutableLiveData
@@ -47,9 +46,9 @@ class EventDetailViewModel (event: Event,
                 val userChecks = localSource.getCheckIns()
                 val userChecksMutable = userChecks.split(";").toMutableList()
 
-                _isCheckIn.value = userChecksMutable.contains(_selectedEvent.value!!.id)
+                _isCheckedIn.value = userChecksMutable.contains(_selectedEvent.value!!.id)
             }catch (e: Exception) {
-                _isCheckIn.value = false
+                _isCheckedIn.value = false
             }
         }
     }
@@ -63,7 +62,6 @@ class EventDetailViewModel (event: Event,
 
             try {
                 val checkInInfo = CheckInInfo(userName, userEmail, eventId)
-                //EventApi.retrofitService.doCheckIn(checkInInfo)
                 remoteSource.doCheckIn(checkInInfo)
                 markCheckInAsDone()
                 _checkInSuccess.value = true
@@ -77,7 +75,7 @@ class EventDetailViewModel (event: Event,
         viewModelScope.launch {
             localSource.saveCheckIn(selectedEvent.value!!.id)
 
-            _isCheckIn.value = true
+            _isCheckedIn.value = true
         }
     }
 
