@@ -2,14 +2,15 @@ package br.com.murilofarias.checkineventos.ui.eventdetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import br.com.murilofarias.checkineventos.ServiceLocator.remoteSource
 import br.com.murilofarias.checkineventos.data.model.Event
 import br.com.murilofarias.checkineventos.data.model.User
 import br.com.murilofarias.checkineventos.data.source.local.FakeLocalSource
 import br.com.murilofarias.checkineventos.data.source.local.LocalSource
 import br.com.murilofarias.checkineventos.data.source.remote.FakeRemoteSource
 import br.com.murilofarias.checkineventos.data.source.remote.RemoteSource
+import br.com.murilofarias.checkineventos.events_sample
 import br.com.murilofarias.checkineventos.getOrAwaitValue
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,6 +28,7 @@ class EventDetailViewModelTest{
 
     private lateinit var localSource: LocalSource
     private lateinit var remoteSource: RemoteSource
+
 
     @Before
     fun setupViewModel() {
@@ -55,7 +57,7 @@ class EventDetailViewModelTest{
     fun markCheckInAsDone_setsIsCheckInToTrue(){
         eventDetailViewModel.markCheckInAsDone()
 
-        assertEquals(eventDetailViewModel.isCheckIn.getOrAwaitValue(), true)
+        assertEquals(true, eventDetailViewModel.isCheckedIn.getOrAwaitValue())
     }
 
     @Test
@@ -64,7 +66,7 @@ class EventDetailViewModelTest{
 
         eventDetailViewModel.verifyCheckIn()
 
-        assertEquals(eventDetailViewModel.isCheckIn.getOrAwaitValue(), true)
+        assertEquals(true, eventDetailViewModel.isCheckedIn.getOrAwaitValue())
     }
 
     @Test
@@ -72,7 +74,17 @@ class EventDetailViewModelTest{
 
         eventDetailViewModel.verifyCheckIn()
 
-        assertEquals(eventDetailViewModel.isCheckIn.getOrAwaitValue(), false)
+        assertEquals(false, eventDetailViewModel.isCheckedIn.getOrAwaitValue())
+    }
+
+    @Test
+    fun onCheckIn_requestSuccess_checkInSuccessToTrue() = runBlocking {
+        val id = "1"
+        remoteSource.uploadEvents(events_sample)
+
+        eventDetailViewModel.onCheckIn(id)
+
+        assertEquals(true, eventDetailViewModel.checkInSuccess.getOrAwaitValue())
     }
 
 }
