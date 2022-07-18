@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/BG"
-                android:padding="16dp">
+                android:padding="@dimen/normal_spacing">
 
                 <TextView
                     android:id="@+id/date_value_text"
@@ -33,7 +33,7 @@
                     app:formattedDateText="@{viewModel.selectedEvent.date}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="16/03/2022 16:30" />
+                    tools:text="@string/event_date_example" />
 
                 <TextView
                     android:id="@+id/event_title_text"
@@ -46,7 +46,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/date_value_text"
-                    tools:text="Feira de adoção de animais na Redenção" />
+                    tools:text="@string/event_title_example" />
 
                 <ImageView
                     android:id="@+id/main_photo_image"
@@ -64,7 +64,7 @@
                     android:id="@+id/price_label_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/half_spacing"
                     android:text="@string/price_label"
                     android:textStyle="bold"
                     android:textColor="#de000000"
@@ -76,19 +76,19 @@
                     android:id="@+id/price_value_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/half_spacing"
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     app:formattedPriceText="@{viewModel.selectedEvent.price}"
                     app:layout_constraintStart_toEndOf="@+id/description_label_text"
                     app:layout_constraintTop_toBottomOf="@id/main_photo_image"
-                    tools:text="$29,99" />
+                    tools:text="@string/event_price_example" />
 
                 <TextView
                     android:id="@+id/description_label_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/half_spacing"
                     android:text="@string/description_label"
                     android:textStyle="bold"
                     android:textColor="#de000000"
@@ -100,20 +100,20 @@
                     android:id="@+id/description_value_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/half_spacing"
                     android:text="@{viewModel.selectedEvent.description}"
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/description_label_text"
-                    tools:text="O Patas Dadas estará na Redenção, nesse domingo, com cães para adoção e produtos à venda!\n\nNa ocasião, teremos bottons, bloquinhos e camisetas!\n\nTraga seu Pet, os amigos e o chima, e venha aproveitar esse dia de sol com a gente e com alguns de nossos peludinhos - que estarão prontinhos para ganhar o ♥ de um humano bem legal pra chamar de seu. \n\nAceitaremos todos os tipos de doação:\n- guias e coleiras em bom estado\n- ração (as que mais precisamos no momento são sênior e filhote)\n- roupinhas \n- cobertas \n- remédios dentro do prazo de validade"/>
+                    tools:text="@string/event_description_example"/>
 
                 <TextView
                     android:id="@+id/location_label_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Localização :"
+                    android:layout_marginTop="@dimen/half_spacing"
+                    android:text="@string/location_label"
                     android:textStyle="bold"
                     android:textColor="#de000000"
                     android:textSize="20sp"
@@ -126,8 +126,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="266dp"
                     tools:context=".ui.MainActivity"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="@dimen/half_spacing"
+                    android:layout_marginBottom="@dimen/normal_spacing"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/location_label_text"/>
 
@@ -140,9 +140,9 @@
             android:background="@color/white"
             android:minHeight="69dp"
             android:layout_gravity="bottom"
-            android:elevation="4dp"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
+            android:elevation="@dimen/checkin_button_elevation"
+            android:paddingRight="@dimen/normal_spacing"
+            android:paddingLeft="@dimen/normal_spacing"
             >
 
             <ProgressBar
@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="Fazer Check-in"/>
+                android:text="@string/do_checkin"/>
 
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

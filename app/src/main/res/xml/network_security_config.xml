@@ -3,5 +3,7 @@
     <base-config cleartextTrafficPermitted="true"/>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">http://lproweb.procempa.com.br</domain>
+        <domain includeSubdomains="true">http://5f5a8f24d44d640016169133.mockapi.io/api/</domain>
     </domain-config>
+
 </network-security-config>

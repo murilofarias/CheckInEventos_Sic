@@ -17,31 +17,31 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
             app:cardBackgroundColor="@color/BG"
-            app:cardElevation="5dp"
+            app:cardElevation="@dimen/card_elevation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:strokeWidth="1dp"
+            android:layout_margin="@dimen/half_spacing"
+            app:strokeWidth="@dimen/card_stroke_width"
             app:strokeColor="@color/black">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="@dimen/normal_spacing">
 
                 <TextView
                     android:id="@+id/date_value_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="@dimen/half_spacing"
                     android:textColor="#de000000"
                     android:textSize="16sp"
                     app:formattedDateText="@{event.date}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_gravity="right"
-                    tools:text="16/03/2022 16:30" />
+                    tools:text="@string/event_date_example" />
 
                 <ImageView
                     android:id="@+id/main_photo_image"
@@ -58,26 +58,26 @@
                     android:id="@+id/property_type_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/normal_spacing"
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     android:text="@{event.title}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_photo_image"
-                    tools:text="Feira de adoção de animais na Redenção" />
+                    tools:text="@string/event_title_example" />
 
                 <TextView
                     android:id="@+id/price_value_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/half_spacing"
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     app:formattedPriceText="@{event.price}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/property_type_text"
                     android:layout_gravity="right"
-                    tools:text="R$29,99" />
+                    tools:text="@string/event_price_example" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

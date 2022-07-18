@@ -6,4 +6,23 @@
     <string name="event_details_title">Detalhes do Evento</string>
     <string name="price_label">Preço:</string>
     <string name="description_label">Descrição:</string>
+    <string name="checkin_fill_hint">Preencha as informações para o Check-in!</string>
+    <string name="user_name_hint">Nome</string>
+    <string name="user_email_hint">Email</string>
+    <string name="button_save_text">Salvar dados</string>
+    <string name="do_checkin">Fazer Check-in</string>
+    <string name="location_label">Localização :</string>
+    <string name="event_price_example">R$29,99</string>
+    <string name="event_title_example">Feira de adoção de animais na Redenção</string>
+    <string name="event_description_example">O Patas Dadas estará na Redenção, nesse domingo, com cães para adoção e produtos à venda!\n\nNa ocasião, teremos bottons, bloquinhos e camisetas!\n\nTraga seu Pet, os amigos e o chima, e venha aproveitar esse dia de sol com a gente e com alguns de nossos peludinhos - que estarão prontinhos para ganhar o ♥ de um humano bem legal pra chamar de seu. \n\nAceitaremos todos os tipos de doação:\n- guias e coleiras em bom estado\n- ração (as que mais precisamos no momento são sênior e filhote)\n- roupinhas \n- cobertas \n- remédios dentro do prazo de validade</string>
+    <string name="event_date_example">16/03/2022 16:30</string>
+    <string name="invalid_user_data_message">Campos são obrigatórios e email precisa estar em formato correto!</string>
+    <string name="e">Fazer Check-in</string>
+    <string name="checkin_done">Check-in Realizado</string>
+    <string name="checkin_success_message">Check-In realizado com Sucesso</string>
+    <string name="checkin_fails_message">Falha no Check-In</string>
+    <string name="try_again_action">Tentar Novamente</string>
+    <string name="checkin_already_done_message">Check-in já foi realizado!</string>
+    <string name="share_content_type">text/plain</string>
+    <string name="share_title">Share using</string>
 </resources>

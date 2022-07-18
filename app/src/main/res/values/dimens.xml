@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="normal_spacing">16dp</dimen>
+    <dimen name="half_spacing">8dp</dimen>
+    <dimen name="checkin_button_elevation">4dp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
+    <dimen name="card_stroke_width">1dp</dimen>
 </resources>
