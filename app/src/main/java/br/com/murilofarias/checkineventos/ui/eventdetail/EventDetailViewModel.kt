@@ -46,7 +46,9 @@ class EventDetailViewModel (event: Event,
                 val userChecks = localSource.getCheckIns()
                 val userChecksMutable = userChecks.split(";").toMutableList()
 
-                _isCheckedIn.value = userChecksMutable.contains(_selectedEvent.value!!.id)
+                _selectedEvent.value?.let{ selectedEvent ->
+                    _isCheckedIn.value = userChecksMutable.contains(selectedEvent.id)
+                }
             }catch (e: Exception) {
                 _isCheckedIn.value = false
             }
@@ -73,9 +75,11 @@ class EventDetailViewModel (event: Event,
 
     fun markCheckInAsDone(){
         viewModelScope.launch {
-            localSource.saveCheckIn(selectedEvent.value!!.id)
+            _selectedEvent.value?.let { selectedEvent ->
+                localSource.saveCheckIn(selectedEvent.id)
+                _isCheckedIn.value = true
+            }
 
-            _isCheckedIn.value = true
         }
     }
 

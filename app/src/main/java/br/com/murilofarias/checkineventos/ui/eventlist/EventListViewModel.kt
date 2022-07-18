@@ -9,6 +9,7 @@ import br.com.murilofarias.checkineventos.data.source.remote.EventApi
 import br.com.murilofarias.checkineventos.data.source.remote.RemoteSource
 import br.com.murilofarias.checkineventos.util.isUserInfoValid
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class EventListViewModel(private val remoteSource: RemoteSource,
                          private val localSource: LocalSource,
@@ -17,13 +18,11 @@ class EventListViewModel(private val remoteSource: RemoteSource,
     //status of the most recent request
     private val _status = MutableLiveData<EventApiStatus>()
 
-
     val status: LiveData<EventApiStatus>
         get() = _status
 
 
     private val _events = MutableLiveData<List<Event>>()
-
 
     val events: LiveData<List<Event>>
         get() = _events
@@ -44,15 +43,18 @@ class EventListViewModel(private val remoteSource: RemoteSource,
 
     private fun getEvents() {
         viewModelScope.launch {
-            _status.value = EventApiStatus.LOADING
+            //remoteSource.getEvents()
+
             try {
-                //_events.value = EventApi.retrofitService.getEvents()
                 _events.value = remoteSource.getEvents()
                 _status.value = EventApiStatus.DONE
-            } catch (e: Exception) {
+            }catch (e: Exception){
+                e.printStackTrace()
                 _status.value = EventApiStatus.ERROR
-                _events.value = ArrayList()
+                _events.value = emptyList()
             }
+
+
         }
     }
 

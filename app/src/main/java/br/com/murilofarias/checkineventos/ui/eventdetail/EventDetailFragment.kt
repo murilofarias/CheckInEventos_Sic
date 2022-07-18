@@ -75,15 +75,15 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkButton.text = if(viewModel.isCheckedIn.value!!) "Check-in Realizado" else "Fazer Check-in"
+        checkButton.text = if(viewModel.isCheckedIn.value!!) getString(R.string.checkin_done) else getString(R.string.do_checkin)
 
-        viewModel.checkInSuccess.observe(viewLifecycleOwner, Observer {
+        viewModel.checkInSuccess.observe(viewLifecycleOwner) {
             onCheckInResponseReceived(it)
-        })
+        }
 
         viewModel.isCheckedIn.observe(viewLifecycleOwner, Observer {
             it.let{
-                checkButton.text = if(it) "Check-in Realizado" else "Fazer Check-in"
+                checkButton.text = if(it) getString(R.string.checkin_done) else getString(R.string.do_checkin)
             }
         })
 
@@ -92,12 +92,12 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
     fun onCheckInResponseReceived(checkInSuccess : Boolean){
         checkInSuccess?.let {
             if (it) {
-                Snackbar.make(checkButton, "Check-In realizado com Sucesso", Snackbar.LENGTH_LONG)
+                Snackbar.make(checkButton, getString(R.string.checkin_success_message), Snackbar.LENGTH_LONG)
                     .show()
 
             } else {
-                Snackbar.make(checkButton, "Falha no Check-In", Snackbar.LENGTH_LONG)
-                    .setAction("Tentar Novamente") {
+                Snackbar.make(checkButton, getString(R.string.checkin_fails_message), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.try_again_action)) {
                         onCheckIn()
                     }
                     .show()
@@ -114,7 +114,7 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
 
         if(viewModel.isCheckedIn.value!!)
         {
-            Snackbar.make(checkButton, "Check-in já foi realizado!", Snackbar.LENGTH_LONG)
+            Snackbar.make(checkButton, getString(R.string.checkin_already_done_message), Snackbar.LENGTH_LONG)
                 .show()
         }
         else
@@ -142,7 +142,7 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
                 val sharingIntent = Intent(Intent.ACTION_SEND)
 
                 // type of the content to be shared
-                sharingIntent.type = "text/plain"
+                sharingIntent.type = getString(R.string.share_content_type)
 
                 val uri =
                     "https://maps.google.com/maps?saddr=${event.latitude},${event.longitude}"
@@ -157,7 +157,7 @@ class EventDetailFragment : Fragment(), OnMapReadyCallback {
 
                 // passing subject of the content
                 sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
-                startActivity(Intent.createChooser(sharingIntent, "Share using"))
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
             }
             R.id.user_button -> {
                 findNavController().navigate(EventDetailFragmentDirections.actionEventDetailFragmentToCheckInInputFragment())

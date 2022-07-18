@@ -28,7 +28,7 @@ object ServiceLocator {
     }
 
     private fun createRemoteSource(context: Context): RemoteSource {
-        val remoteSource = EventApi.retrofitService
+        val remoteSource = EventApi
         return remoteSource
     }
 

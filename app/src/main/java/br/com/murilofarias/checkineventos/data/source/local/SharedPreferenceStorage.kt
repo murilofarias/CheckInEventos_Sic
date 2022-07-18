@@ -14,7 +14,7 @@ const val USER_CHECKS = "USER_CHECKS"
 
 class SharedPreferenceStorage(app: Application) : LocalSource {
 
-    val sharedPreferences: SharedPreferences =
+    private val sharedPreferences: SharedPreferences =
         app.getSharedPreferences(MAIN_SHARED, Context.MODE_PRIVATE)
 
     override fun getUser(): User {
@@ -27,9 +27,12 @@ class SharedPreferenceStorage(app: Application) : LocalSource {
     override fun saveUser(user: User){
         val editor = sharedPreferences.edit()
 
-        editor.putString(USER_NAME, user.name)
-        editor.putString(USER_EMAIL, user.email)
-        editor.apply()
+        editor?.apply{
+            putString(USER_NAME, user.name)
+            putString(USER_EMAIL, user.email)
+            apply()
+        }
+
     }
 
     override fun getCheckIns() : String{
@@ -41,16 +44,20 @@ class SharedPreferenceStorage(app: Application) : LocalSource {
         userChecks = "$userChecks;${eventId}"
 
         val editor = sharedPreferences.edit()
-        editor.putString(USER_CHECKS, userChecks)
-        editor.apply()
+        editor?.apply{
+            putString(USER_CHECKS, userChecks)
+            apply()
+        }
     }
 
     override fun reset() {
         val editor = sharedPreferences.edit()
 
-        editor.putString(USER_NAME, "")
-        editor.putString(USER_EMAIL, "")
-        editor.putString(USER_CHECKS, "")
-        editor.apply()
+        editor?.apply{
+            putString(USER_NAME, "")
+            putString(USER_EMAIL, "")
+            putString(USER_CHECKS, "")
+            apply()
+        }
     }
 }
