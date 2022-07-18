@@ -9,14 +9,12 @@ Tabela de Conteúdos
 =================
 <!--ts-->
 * [Arquitetura do App](#arquitetura-da-app)
-* [Observacoes](#observacoes)
 <!--te-->
 
 ---
 
 ### Arquitetura do App
-A arquitetura é uma versão simplificada da MVVM da documentação android. 
+O app contém uma versão da arquitetura recomendada em https://developer.android.com/jetpack/guide?hl=pt-br de forma simplificada. Apenas com as camadas de UI e de dados. A camada de UI é composta na forma recomendada por UI controller e seu respectivo view Model. Optou-se por não ter repositório haja vista a simplicidade da lógica de acesso dos dados envolvidos.
 
 
-### Observacoes
-O endpoint de checkin do Sicredit está desativado. É importante, antes dos testes de instrumentação, desabilitar escala de animação da janela, a escala de animação da transição e a escala de duração do Animator.
+
