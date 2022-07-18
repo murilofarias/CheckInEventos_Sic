@@ -1,9 +1,9 @@
-package br.com.murilofarias.checkineventos.date.source.local
+package br.com.murilofarias.checkineventos.data.source.local
 
 import br.com.murilofarias.checkineventos.data.model.User
 import br.com.murilofarias.checkineventos.data.source.local.LocalSource
 
-class FakeLocalSource: LocalSource {
+class FakeLocalSourceAndroid: LocalSource {
 
     private var userSaved : User =User("", "")
     private var checkIns : String = ""

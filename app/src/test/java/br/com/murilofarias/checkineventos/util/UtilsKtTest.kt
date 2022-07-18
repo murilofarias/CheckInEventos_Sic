@@ -58,16 +58,4 @@ class UtilsTest{
         assertEquals(false, result)
     }
 
-    @Test
-    fun isUserInfoValid_userNotBlankEmailNotBlank_returnsTrue() {
-        //given
-        val user = "murilo"
-        val email = "murilo.farias@gmail.com"
-
-        //when
-        val result = isUserInfoValid(user, email)
-
-        // Then
-        assertEquals(true, result)
-    }
 }

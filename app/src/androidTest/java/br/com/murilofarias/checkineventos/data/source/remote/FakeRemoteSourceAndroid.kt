@@ -1,10 +1,10 @@
-package br.com.murilofarias.checkineventos.date.source.remote
+package br.com.murilofarias.checkineventos.data.source.remote
 
 import br.com.murilofarias.checkineventos.data.model.CheckInInfo
 import br.com.murilofarias.checkineventos.data.model.Event
 import br.com.murilofarias.checkineventos.data.source.remote.RemoteSource
 
-class FakeRemoteSource(): RemoteSource {
+class FakeRemoteSourceAndroid(): RemoteSource {
 
     private val events : MutableList<Event> = mutableListOf()
 

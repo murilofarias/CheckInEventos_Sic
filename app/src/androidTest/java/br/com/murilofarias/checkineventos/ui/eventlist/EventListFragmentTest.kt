@@ -1,35 +1,25 @@
 package br.com.murilofarias.checkineventos.ui.eventlist
 
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.view.menu.ActionMenuItem
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.testing.TestNavHostController
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.core.internal.deps.guava.base.Joiner.on
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import br.com.murilofarias.checkineventos.R
 import br.com.murilofarias.checkineventos.ServiceLocator
 import br.com.murilofarias.checkineventos.data.model.Event
-import br.com.murilofarias.checkineventos.data.model.User
 import br.com.murilofarias.checkineventos.data.source.local.LocalSource
 import br.com.murilofarias.checkineventos.data.source.remote.RemoteSource
-import br.com.murilofarias.checkineventos.date.source.local.FakeLocalSource
-import br.com.murilofarias.checkineventos.date.source.remote.FakeRemoteSource
+import br.com.murilofarias.checkineventos.data.source.local.FakeLocalSourceAndroid
+import br.com.murilofarias.checkineventos.data.source.remote.FakeRemoteSourceAndroid
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -79,8 +69,8 @@ class EventListFragmentTest {
 
     @Before
     fun initLocalSource() {
-        localSource = FakeLocalSource()
-        remoteSource = FakeRemoteSource()
+        localSource = FakeLocalSourceAndroid()
+        remoteSource = FakeRemoteSourceAndroid()
 
         ServiceLocator.localSource = localSource
         ServiceLocator.remoteSource = remoteSource
